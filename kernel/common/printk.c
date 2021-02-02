@@ -119,6 +119,28 @@ static int printk_write_num(char **out, long long i, int base, int sign,
 	// store the digitals in the buffer `print_buf`:
 	// 1. the last postion of this buffer must be '\0'
 	// 2. the format is only decided by `base` and `letbase` here
+	s = print_buf + PRINT_BUF_LEN;
+	*s = '\0';
+
+	while(u > 0){
+		t = u % base;
+		s-- ;
+
+		if(t > 10){
+			
+			if(letbase){
+				*s = t - 10 + 'a';
+			}
+			else{
+				*s = t -10 + 'A';
+			}
+
+		}else{
+			*s = t + '0';
+		}
+		u /= base;
+	}
+
 
 	if (neg) {
 		if (width && (flags & PAD_ZERO)) {
